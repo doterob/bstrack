@@ -15,6 +15,11 @@ import com.neura.resources.insights.SleepProfileCallbacks;
 import com.neura.resources.insights.SleepProfileData;
 import com.neura.resources.situation.SituationCallbacks;
 import com.neura.resources.situation.SituationData;
+import com.neura.resources.user.UserDetails;
+import com.neura.resources.user.UserDetailsCallbacks;
+import com.neura.resources.user.UserPhone;
+import com.neura.resources.user.UserPhoneCallbacks;
+
 import es.bahiasoftware.bstrack.NeuraManager;
 import es.bahiasoftware.bstrack.R;
 
@@ -76,23 +81,39 @@ public class FragmentServices extends BaseFragment {
                 });
 
         //average sleep information for the past 5 days
-        NeuraManager.getInstance().getClient().getSleepProfile(System.currentTimeMillis() - 5 * 1000 * 60 * 60 * 24,
-                System.currentTimeMillis(), new SleepProfileCallbacks() {
-                    @Override
-                    public void onSuccess(SleepProfileData sleepProfileData) {
-                        if (getActivity() != null) {
-                            Log.i(getClass().getSimpleName(), "Received sleep data");
-                            ((TextView) getView().findViewById(R.id.sleep_results_text)).setMovementMethod(new ScrollingMovementMethod());
-                            ((TextView) getView().findViewById(R.id.sleep_results_text))
-                                    .setText(sleepProfileData.toString());
-                        }
-                    }
+        NeuraManager.getInstance().getClient().getUserDetails(new UserDetailsCallbacks() {
+            @Override
+            public void onSuccess(UserDetails userDetails) {
+                if (getActivity() != null) {
+                    Log.i(getClass().getSimpleName(), "Received sleep data");
+                    ((TextView) getView().findViewById(R.id.user_results_text)).setMovementMethod(new ScrollingMovementMethod());
+                    ((TextView) getView().findViewById(R.id.user_results_text))
+                            .setText(userDetails.getData().toString());
+                }
+            }
 
-                    @Override
-                    public void onFailure(Bundle bundle, int i) {
-                        Log.i(getClass().getSimpleName(), "Error at receiving sleep data");
-                    }
-                });
+            @Override
+            public void onFailure(Bundle resultData, int errorCode) {
+                Log.i(getClass().getSimpleName(), "Error at receiving user detail data");
+            }
+        });
+
+        NeuraManager.getInstance().getClient().getUserPhone(new UserPhoneCallbacks() {
+            @Override
+            public void onSuccess(UserPhone userPhone) {
+                if (getActivity() != null) {
+                    Log.i(getClass().getSimpleName(), "Received sleep data");
+                    ((TextView) getView().findViewById(R.id.phone_results_text)).setMovementMethod(new ScrollingMovementMethod());
+                    ((TextView) getView().findViewById(R.id.phone_results_text))
+                            .setText(userPhone.getPhone());
+                }
+            }
+
+            @Override
+            public void onFailure(Bundle resultData, int errorCode) {
+                Log.i(getClass().getSimpleName(), "Error at receiving phone data");
+            }
+        });
     }
 
 }
