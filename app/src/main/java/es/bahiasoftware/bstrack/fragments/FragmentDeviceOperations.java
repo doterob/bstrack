@@ -1,4 +1,4 @@
-package com.neura.sampleapplication.fragments;
+package es.bahiasoftware.bstrack.fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,8 +13,8 @@ import com.neura.resources.data.PickerCallback;
 import com.neura.resources.device.Capability;
 import com.neura.resources.device.DevicesRequestCallback;
 import com.neura.resources.device.DevicesResponseData;
-import com.neura.sampleapplication.NeuraManager;
-import com.neura.sampleapplication.R;
+import es.bahiasoftware.bstrack.NeuraManager;
+import es.bahiasoftware.bstrack.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

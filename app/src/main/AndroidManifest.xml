@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.neura.sampleapplication">
+    package="es.bahiasoftware.bstrack">
 
     <!-- Neura can login reading your user's sms thus making your user not to interact with the ui,
     kind of automatically login. This isn't mandatory, and you don't require this permission on

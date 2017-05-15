@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">Neura Sample</string>
+    <string name="app_name" translatable="false">BSTRACK</string>
 
-    <string name="app_uid">dae8c58c0d6860bb828b25c01f99889bb719513063558e4b5882a4c8c5cb8015</string>
-    <string name="app_secret">00f7e687db22aa21c965a1754dcf1f24746129a054dac5f06dfa4e356eb303e3</string>
+    <string name="app_uid" translatable="false">23467c8e2dfa0d986cdd059738e545a95658eb4cb426d01b5d01fae42199a7e1</string>
+    <string name="app_secret" translatable="false">8bca370345214cdc74051ac3e29bc6bcb982a4a7098c385763ac57fbad3ef900</string>
 
     <!-- fragment main strings -->
-    <string name="connect_request_permissions">Connect and request permissions</string>
-    <string name="disconnect_from_neura">Disconnect</string>
-    <string name="neura_status">Neura status:</string>
-    <string name="neura_status_disconnected">Disconnected</string>
-    <string name="neura_status_connected">Connected</string>
-    <string name="services">Services</string>
+    <string name="connect_request_permissions">Conectar</string>
+    <string name="disconnect_from_bstrack">Desconectar</string>
+    <string name="bstrack_status">bstrack status:</string>
+    <string name="bstrack_status_disconnected">Disconnected</string>
+    <string name="bstrack_status_connected">Connected</string>
+    <string name="services">Datos del usuario</string>
     <string name="add_location">Add a location</string>
 
     <!-- fragment add device -->
@@ -20,4 +20,9 @@
     <string name="add_device_general">Add a device</string>
     <string name="add_device_capabilities">Add a device by capability</string>
     <string name="add_device_name">Add a device by name</string>
+    <string name="user_situation_state">Estado</string>
+    <string name="user_situation_activity">Actividad</string>
+    <string name="user_situation_place_name">Lugar</string>
+    <string name="user_situation_place_type">Tipo</string>
+    <string name="user_situation">Situación</string>
 </resources>

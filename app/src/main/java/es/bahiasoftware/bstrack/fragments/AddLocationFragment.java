@@ -1,4 +1,4 @@
-package com.neura.sampleapplication.fragments;
+package es.bahiasoftware.bstrack.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,8 +17,8 @@ import android.widget.ListView;
 import com.neura.resources.data.PickerCallback;
 import com.neura.resources.place.AddPlaceCallback;
 import com.neura.resources.place.PlaceNode;
-import com.neura.sampleapplication.NeuraManager;
-import com.neura.sampleapplication.R;
+import es.bahiasoftware.bstrack.NeuraManager;
+import es.bahiasoftware.bstrack.R;
 
 import java.util.ArrayList;
 

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion '25.0.0'
     defaultConfig {
-        applicationId "com.neura.sampleapplication"
+        applicationId "es.bahiasoftware.bstrack"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 2

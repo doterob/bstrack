@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/symbol_neura"
             android:gravity="center_horizontal"
-            android:text="@string/neura_status"
+            android:text="@string/bstrack_status"
             android:textColor="@color/light_black"
             android:textSize="22sp" />
 
@@ -174,7 +174,7 @@
             android:layout_weight="1"
             android:background="@android:color/white"
             android:elevation="1dp"
-            android:text="@string/disconnect_from_neura"
+            android:text="@string/disconnect_from_bstrack"
             android:textColor="@color/neura_sdk_blue_btn" />
     </LinearLayout>
 

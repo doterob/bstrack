@@ -1,10 +1,10 @@
-package com.neura.sampleapplication.fragments;
+package es.bahiasoftware.bstrack.fragments;
 
 import android.app.Fragment;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.neura.sampleapplication.activities.MainActivity;
+import es.bahiasoftware.bstrack.activities.MainActivity;
 
 public abstract class BaseFragment extends Fragment {
 

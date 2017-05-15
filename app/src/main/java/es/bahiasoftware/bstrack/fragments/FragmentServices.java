@@ -1,4 +1,4 @@
-package com.neura.sampleapplication.fragments;
+package es.bahiasoftware.bstrack.fragments;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -15,8 +15,8 @@ import com.neura.resources.insights.SleepProfileCallbacks;
 import com.neura.resources.insights.SleepProfileData;
 import com.neura.resources.situation.SituationCallbacks;
 import com.neura.resources.situation.SituationData;
-import com.neura.sampleapplication.NeuraManager;
-import com.neura.sampleapplication.R;
+import es.bahiasoftware.bstrack.NeuraManager;
+import es.bahiasoftware.bstrack.R;
 
 public class FragmentServices extends BaseFragment {
 

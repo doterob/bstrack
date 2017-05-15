@@ -1,4 +1,4 @@
-package com.neura.sampleapplication;
+package es.bahiasoftware.bstrack;
 
 import android.content.Context;
 import android.widget.Toast;

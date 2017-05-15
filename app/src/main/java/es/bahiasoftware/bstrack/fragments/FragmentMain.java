@@ -1,4 +1,4 @@
-package com.neura.sampleapplication.fragments;
+package es.bahiasoftware.bstrack.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,9 +20,9 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.neura.resources.authentication.AuthenticateCallback;
 import com.neura.resources.authentication.AuthenticateData;
-import com.neura.sampleapplication.NeuraEventsService;
-import com.neura.sampleapplication.NeuraManager;
-import com.neura.sampleapplication.R;
+import es.bahiasoftware.bstrack.NeuraEventsService;
+import es.bahiasoftware.bstrack.NeuraManager;
+import es.bahiasoftware.bstrack.R;
 import com.neura.sdk.object.AuthenticationRequest;
 import com.neura.sdk.service.SubscriptionRequestCallbacks;
 import com.neura.sdk.util.NeuraUtil;
@@ -30,15 +30,17 @@ import com.neura.standalonesdk.util.SDKUtils;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 public class FragmentMain extends BaseFragment {
 
     private Button mRequestPermissions;
     private Button mDisconnect;
     private Button mSimulateAnEvent;
-    private Button mAddDevice;
+    //private Button mAddDevice;
     private Button mServices;
     private Button mAddLocation;
+    private Button mUserSituation;
 
     private ImageView mSymbolTop;
     private ImageView mSymbolBottom;
@@ -60,10 +62,11 @@ public class FragmentMain extends BaseFragment {
         mRequestPermissions = (Button) view.findViewById(R.id.request_permissions_btn);
         mDisconnect = (Button) view.findViewById(R.id.disconnect);
         mSimulateAnEvent = (Button) view.findViewById(R.id.event_simulation);
-        mAddDevice = (Button) view.findViewById(R.id.add_device);
+        //mAddDevice = (Button) view.findViewById(R.id.add_device);
         mServices = (Button) view.findViewById(R.id.services_button);
         mAddLocation = (Button) view.findViewById(R.id.add_place_btn);
         mNeuraStatus = (TextView) view.findViewById(R.id.neura_status);
+        //mUserSituation = (Button) view.findViewById(R.id.user_situation);
 
         mSymbolTop.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -93,15 +96,25 @@ public class FragmentMain extends BaseFragment {
                                             }
         );
 
-        mAddDevice.setOnClickListener(new View.OnClickListener()
+        /*mAddDevice.setOnClickListener(new View.OnClickListener()
 
                                       {
                                           @Override
                                           public void onClick(View v) {
-                                              getMainActivity().openFragment(new FragmentDeviceOperations());
+                                              getMainActivity().openFragment(new es.bahiasoftware.bstrack.fragments.FragmentDeviceOperations());
                                           }
                                       }
-        );
+        );*/
+
+        /*mUserSituation.setOnClickListener(new View.OnClickListener()
+
+                                      {
+                                          @Override
+                                          public void onClick(View v) {
+                                              getMainActivity().openFragment(new es.bahiasoftware.bstrack.fragments.FragmentUserSituation());
+                                          }
+                                      }
+        );*/
 
         ((TextView) view.findViewById(R.id.version)).
                 setText("Sdk Version : " + NeuraManager.getInstance().getClient().getSdkVersion());
@@ -116,7 +129,7 @@ public class FragmentMain extends BaseFragment {
         mAddLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getMainActivity().openFragment(new AddLocationFragment());
+                getMainActivity().openFragment(new es.bahiasoftware.bstrack.fragments.AddLocationFragment());
             }
         });
     }
@@ -125,7 +138,7 @@ public class FragmentMain extends BaseFragment {
         if (setSymbol)
             setSymbols(isConnected);
         loadProgress(!isConnected);
-        mNeuraStatus.setText(getString(isConnected ? R.string.neura_status_connected : R.string.neura_status_disconnected));
+        mNeuraStatus.setText(getString(isConnected ? R.string.bstrack_status_connected : R.string.bstrack_status_disconnected));
         mNeuraStatus.setTextColor(getResources().getColor(isConnected ? R.color.green_connected : R.color.red_disconnected));
         setEnableOnButtons(isConnected);
         getView().findViewById(R.id.phone_injection_layout).setVisibility(isConnected ? View.GONE : View.VISIBLE);
@@ -185,40 +198,54 @@ public class FragmentMain extends BaseFragment {
                  * Go to our push notification guide for more info on how to register receiving
                  * events via firebase https://dev.theneura.com/docs/guide/android/pushnotification.
                  * If you're receiving a 'Token already exists error',make sure you've initiated a
-                 * Firebase instance like {@link com.neura.sampleapplication.activities.MainActivity#onCreate(Bundle)}
+                 * Firebase instance like {@link es.bahiasoftware.bstrack.activities.MainActivity#onCreate(Bundle)}
                  * http://stackoverflow.com/a/38945375/5130239
                  */
                 NeuraManager.getInstance().getClient().registerFirebaseToken(getActivity(),
                         FirebaseInstanceId.getInstance().getToken());
 
                 //TODO put here a list of events that you wish to receive. Beware, that these events must be listed to your application on our dev site. https://dev.theneura.com/console/apps
-                List<String> events = Arrays.asList("userArrivedHome", "userArrivedHomeFromWork",
-                        "userLeftHome", "userArrivedHomeByWalking", "userArrivedHomeByRunning",
-                        "userIsOnTheWayHome", "userIsIdleAtHome", "userStartedWorkOut",
-                        "userFinishedRunning", "userFinishedWorkOut", "userLeftGym",
-                        "userFinishedWalking", "userArrivedToGym", "userIsIdleFor2Hours",
-                        "userStartedWalking", "userIsIdleFor1Hour",
-                        "userStartedTransitByWalking", "userStartedRunning",
-                        "userFinishedTransitByWalking", "userFinishedDriving", "userStartedDriving",
-                        "userArrivedAtActiveZone", "userArrivedAtSchoolCampus",
-                        "userArrivedAtAirport", "userArrivedAtClinic",
-                        "userArrivedAtCafe", "userArrivedAtRestaurant", "userLeftSchoolCampus",
-                        "userIsOnTheWayToActiveZone", "userLeftCafe", "userArrivedAtGroceryStore",
-                        "userArrivedAtHospital", "userLeftHospital", "userLeftRestaurant",
-                        "userLeftAirport", "userLeftActiveZone", "userArrivedAtPharmacy",
-                        "userArrivedToWorkByRunning", "userArrivedToWork", "userArrivedWorkFromHome",
-                        "userArrivedToWorkByWalking", "userLeftWork", "userIsOnTheWayToWork",
-                        "userStartedSleeping", "userWokeUp", "userGotUp", "userIsAboutToGoToSleep",
-                        "userStartedDriving", "userLeftHome", "userArrivedToWork",
-                        "userFinishedRunning", "userArrivedToGym", "userFinishedWalking",
-                        "userFinishedTransitByWalking", "userStartedWorkOut", "userWokeUp",
-                        "userLeftGym", "userArrivedHome", "userStartedSleeping",
-                        "userFinishedDriving", "userLeftWork", "userLeftActiveZone",
-                        "userStartedRunning", "userArrivedAtActiveZone", "userIsOnTheWayToWork",
-                        "userIsOnTheWayHome", "userIsOnTheWayToActiveZone", "userIsIdleFor2Hours",
-                        "userIsIdleFor1Hour", "userIsIdleAtHome", "userStartedWalking",
-                        "userStartedTransitByWalking", "userArrivedHomeFromWork",
-                        "userArrivedWorkFromHome", "userIsAboutToGoToSleep");
+                List<String> events = Arrays.asList("userArrivedHome",
+                        "userArrivedHomeFromWork",
+                        "userLeftHome",
+                        "userArrivedHomeByWalking",
+                        "userArrivedHomeByRunning",
+                        "userIsIdleAtHome",
+                        "userIsOnTheWayHome",
+                        "userFinishedRunning",
+                        "userStartedWorkOut",
+                        "userFinishedWorkOut",
+                        "userLeftGym",
+                        "userFinishedWalking",
+                        "userArrivedToGym",
+                        "userIsIdleFor2Hours",
+                        "userStartedWalking",
+                        "userIsIdleFor1Hour",
+                        "userStartedTransitByWalking",
+                        "userStartedRunning",
+                        "userFinishedTransitByWalking",
+                        "userArrivedAtActiveZone",
+                        "userIsOnTheWayToActiveZone",
+                        "userArrivedAtGroceryStore",
+                        "userLeftActiveZone",
+                        "userArrivedAtSchoolCampus",
+                        "userArrivedAtAirport",
+                        "userArrivedAtClinic",
+                        "userArrivedAtCafe",
+                        "userArrivedAtRestaurant",
+                        "userArrivedAtHospital",
+                        "userLeftSchoolCampus",
+                        "userLeftCafe",
+                        "userLeftHospital",
+                        "userLeftRestaurant",
+                        "userLeftAirport",
+                        "userArrivedAtPharmacy",
+                        "userArrivedToWorkByRunning",
+                        "userArrivedToWork",
+                        "userArrivedWorkFromHome",
+                        "userArrivedToWorkByWalking",
+                        "userLeftWork",
+                        "userIsOnTheWayToWork");
 
                 //Subscribing to events - mandatory in order to receive events.
                 for (int i = 0; i < events.size(); i++) {
@@ -239,8 +266,8 @@ public class FragmentMain extends BaseFragment {
     private void setEnableOnButtons(boolean isConnected) {
         mSimulateAnEvent.setAlpha(isConnected ? 1 : 0.5f);
         mSimulateAnEvent.setEnabled(isConnected);
-        mAddDevice.setEnabled(isConnected);
-        mAddDevice.setAlpha(isConnected ? 1 : 0.5f);
+        /*mUserSituation.setEnabled(isConnected);
+        mUserSituation.setAlpha(isConnected ? 1 : 0.5f);*/
         mServices.setEnabled(isConnected);
         mServices.setAlpha(isConnected ? 1 : 0.5f);
         mAddLocation.setEnabled(isConnected);
@@ -269,7 +296,7 @@ public class FragmentMain extends BaseFragment {
         super.loadProgress(enabled);
         mRequestPermissions.setEnabled(!enabled);
         mDisconnect.setEnabled(!enabled);
-        mServices.setEnabled(!enabled);
+        //mServices.setEnabled(!enabled);
         mAddLocation.setEnabled(!enabled);
         mSimulateAnEvent.setEnabled(!enabled);
     }

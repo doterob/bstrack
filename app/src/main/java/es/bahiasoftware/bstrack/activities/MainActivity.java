@@ -1,4 +1,4 @@
-package com.neura.sampleapplication.activities;
+package es.bahiasoftware.bstrack.activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -7,13 +7,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.neura.sampleapplication.NeuraManager;
-import com.neura.sampleapplication.R;
-import com.neura.sampleapplication.fragments.BaseFragment;
-import com.neura.sampleapplication.fragments.FragmentMain;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import es.bahiasoftware.bstrack.NeuraManager;
+import es.bahiasoftware.bstrack.R;
+import es.bahiasoftware.bstrack.fragments.BaseFragment;
+import es.bahiasoftware.bstrack.fragments.FragmentMain;
 
 public class MainActivity extends Activity {
 
@@ -25,11 +28,14 @@ public class MainActivity extends Activity {
         //http://stackoverflow.com/a/38945375/5130239
         try {
             FirebaseApp.getInstance();
+            Log.i(getClass().getSimpleName(), "Iniciado FCM con token -> " + FirebaseInstanceId.getInstance().getToken());
         } catch (IllegalStateException ex) {
+            Log.e(getClass().getSimpleName(), "Error en FCM", ex);
             FirebaseApp.initializeApp(this, FirebaseOptions.fromResource(this));
         }
 
         NeuraManager.getInstance().initNeuraConnection(getApplicationContext());
+        Log.i(getClass().getSimpleName(), "Neura token -> " + NeuraManager.getInstance().getClient().getUserAccessToken());
 
         openFragment(new FragmentMain());
     }
