@@ -2,6 +2,7 @@ package es.bahiasoftware.bstrack;
 
 import android.content.Context;
 
+import com.neura.resources.authentication.AuthenticateData;
 import com.neura.standalonesdk.service.NeuraApiClient;
 import com.neura.standalonesdk.util.Builder;
 
@@ -13,6 +14,7 @@ public class NeuraManager {
     private static NeuraManager sInstance;
 
     private NeuraApiClient mNeuraApiClient;
+    private String userId;
 
     public static NeuraManager getInstance() {
         if (sInstance == null)
@@ -26,6 +28,14 @@ public class NeuraManager {
 
     public NeuraApiClient getClient() {
         return mNeuraApiClient;
+    }
+
+    public  String getUserId(){
+        return userId;
+    }
+
+    public void authenticate(AuthenticateData data){
+        userId = data.getNeuraUserId();
     }
 
     /**

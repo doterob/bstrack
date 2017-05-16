@@ -16,11 +16,19 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/neura_sdk_demo_logo" />
 
+        <TextView
+            android:id="@+id/user_information_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/logo_image"
+            android:text="username" />
+
         <com.neura.dashboard.view.widget.RobotoMediumTextView
             android:id="@+id/situation_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/logo_image"
+            android:layout_below="@+id/user_information_username"
             android:layout_marginTop="5dp"
             android:text="Situación"
             android:textColor="@color/neura_sdk_blue_btn"

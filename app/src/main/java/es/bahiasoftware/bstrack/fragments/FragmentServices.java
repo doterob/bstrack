@@ -37,6 +37,8 @@ public class FragmentServices extends BaseFragment {
         mProgress = (ProgressBar) view.findViewById(R.id.progress);
         mProgress.setVisibility(View.VISIBLE);
 
+        ((TextView)getView().findViewById(R.id.user_information_username)).setText(NeuraManager.getInstance().getUserId());
+
         NeuraManager.getInstance().getClient().getUserSituation(new SituationCallbacks() {
             @Override
             public void onSuccess(SituationData situationData) {
@@ -88,7 +90,7 @@ public class FragmentServices extends BaseFragment {
                     Log.i(getClass().getSimpleName(), "Received sleep data");
                     ((TextView) getView().findViewById(R.id.user_results_text)).setMovementMethod(new ScrollingMovementMethod());
                     ((TextView) getView().findViewById(R.id.user_results_text))
-                            .setText(userDetails.getData().toString());
+                            .setText(userDetails.getData().toJson().toString());
                 }
             }
 

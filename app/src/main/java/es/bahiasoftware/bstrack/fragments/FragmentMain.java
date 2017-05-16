@@ -38,6 +38,7 @@ public class FragmentMain extends BaseFragment {
     private Button mDisconnect;
     private Button mSimulateAnEvent;
     //private Button mAddDevice;
+    private Button mViewEvents;
     private Button mServices;
     private Button mAddLocation;
     private Button mUserSituation;
@@ -63,6 +64,7 @@ public class FragmentMain extends BaseFragment {
         mDisconnect = (Button) view.findViewById(R.id.disconnect);
         mSimulateAnEvent = (Button) view.findViewById(R.id.event_simulation);
         //mAddDevice = (Button) view.findViewById(R.id.add_device);
+        mViewEvents = (Button) view.findViewById(R.id.view_events);
         mServices = (Button) view.findViewById(R.id.services_button);
         mAddLocation = (Button) view.findViewById(R.id.add_place_btn);
         mNeuraStatus = (TextView) view.findViewById(R.id.neura_status);
@@ -105,6 +107,16 @@ public class FragmentMain extends BaseFragment {
                                           }
                                       }
         );*/
+
+        mViewEvents.setOnClickListener(new View.OnClickListener()
+
+                                      {
+                                          @Override
+                                          public void onClick(View v) {
+                                              getMainActivity().openFragment(new es.bahiasoftware.bstrack.fragments.FragmentViewEvents());
+                                          }
+                                      }
+        );
 
         /*mUserSituation.setOnClickListener(new View.OnClickListener()
 
@@ -194,15 +206,9 @@ public class FragmentMain extends BaseFragment {
                         + authenticateData.getNeuraUserId() + ". AccessToken = " + authenticateData.getAccessToken());
                 setUIState(true, true);
 
-                /**
-                 * Go to our push notification guide for more info on how to register receiving
-                 * events via firebase https://dev.theneura.com/docs/guide/android/pushnotification.
-                 * If you're receiving a 'Token already exists error',make sure you've initiated a
-                 * Firebase instance like {@link es.bahiasoftware.bstrack.activities.MainActivity#onCreate(Bundle)}
-                 * http://stackoverflow.com/a/38945375/5130239
-                 */
                 NeuraManager.getInstance().getClient().registerFirebaseToken(getActivity(),
                         FirebaseInstanceId.getInstance().getToken());
+                NeuraManager.getInstance().authenticate(authenticateData);
 
                 //TODO put here a list of events that you wish to receive. Beware, that these events must be listed to your application on our dev site. https://dev.theneura.com/console/apps
                 List<String> events = Arrays.asList("userArrivedHome",
@@ -268,6 +274,8 @@ public class FragmentMain extends BaseFragment {
         mSimulateAnEvent.setEnabled(isConnected);
         /*mUserSituation.setEnabled(isConnected);
         mUserSituation.setAlpha(isConnected ? 1 : 0.5f);*/
+        mViewEvents.setEnabled(isConnected);
+        mViewEvents.setAlpha(isConnected ? 1 : 0.5f);
         mServices.setEnabled(isConnected);
         mServices.setAlpha(isConnected ? 1 : 0.5f);
         mAddLocation.setEnabled(isConnected);
