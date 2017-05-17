@@ -33,7 +33,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".NeuraEventsService">
+        <service android:name=".BstrackEventsService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -2,23 +2,27 @@ package es.bahiasoftware.bstrack.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import com.google.firebase.iid.FirebaseInstanceId;
 
-import es.bahiasoftware.bstrack.NeuraManager;
 import es.bahiasoftware.bstrack.R;
-import es.bahiasoftware.bstrack.fragments.BaseFragment;
-import es.bahiasoftware.bstrack.fragments.FragmentMain;
+import es.bahiasoftware.bstrack.db.DbHelper;
+import es.bahiasoftware.bstrack.fragments.FragmentSettings;
+import es.bahiasoftware.bstrack.iot.ConnectionRequest;
+import es.bahiasoftware.bstrack.iot.DisconnectionRequest;
+import es.bahiasoftware.bstrack.iot.IoTEvent;
+import es.bahiasoftware.bstrack.iot.IoTInfo;
+import es.bahiasoftware.bstrack.iot.IoTListener;
+import es.bahiasoftware.bstrack.iot.IoTManager;
+import es.bahiasoftware.bstrack.iot.callback.ConnectCallback;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements IoTListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,25 +32,22 @@ public class MainActivity extends Activity {
         //http://stackoverflow.com/a/38945375/5130239
         try {
             FirebaseApp.getInstance();
-            Log.i(getClass().getSimpleName(), "Iniciado FCM con token -> " + FirebaseInstanceId.getInstance().getToken());
         } catch (IllegalStateException ex) {
-            Log.e(getClass().getSimpleName(), "Error en FCM", ex);
             FirebaseApp.initializeApp(this, FirebaseOptions.fromResource(this));
         }
 
-        NeuraManager.getInstance().initNeuraConnection(getApplicationContext());
-        Log.i(getClass().getSimpleName(), "Neura token -> " + NeuraManager.getInstance().getClient().getUserAccessToken());
-
-        openFragment(new FragmentMain());
+        IoTManager.getInstance().connect(new ConnectionRequest(this), null);
+        IoTManager.getInstance().register(this);
+        openFragment(new FragmentSettings());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NeuraManager.getInstance().getClient().disconnect();
+        IoTManager.getInstance().disconnect(new DisconnectionRequest(this), null);
     }
 
-    public void openFragment(BaseFragment newFragment) {
+    public void openFragment(Fragment newFragment) {
         android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_container, newFragment);
         transaction.addToBackStack(null);
@@ -79,16 +80,8 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        //Since we're only calling permissions request on sms, which is only called from FragmentMain,
-        //so we can assume that the current fragment is FragmentMain.
-        //It doesn't matter if the user approves or rejects the sms request, we'll show authentication
-        //screen regardless.
-        ((FragmentMain) getFragmentManager().findFragmentById
-                (R.id.fragment_container)).authenticateWithNeura();
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void notify(IoTEvent event) {
+        DbHelper db = new DbHelper(this.getBaseContext());
+        db.save(event);
     }
-
 }

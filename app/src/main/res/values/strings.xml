@@ -7,11 +7,11 @@
     <!-- fragment main strings -->
     <string name="connect_request_permissions">Conectar</string>
     <string name="disconnect_from_bstrack">Desconectar</string>
-    <string name="bstrack_status">bstrack status:</string>
-    <string name="bstrack_status_disconnected">Disconnected</string>
-    <string name="bstrack_status_connected">Connected</string>
+    <string name="bstrack_status">Estado:</string>
+    <string name="bstrack_status_disconnected">desconectado</string>
+    <string name="bstrack_status_connected">Conneconectadocted</string>
     <string name="services">Datos del usuario</string>
-    <string name="add_location">Add a location</string>
+    <string name="add_location">Nuevo sitio</string>
 
     <!-- fragment add device -->
     <string name="get_devices">Get All Available Devices</string>
@@ -26,4 +26,7 @@
     <string name="user_situation_place_type">Tipo</string>
     <string name="user_situation">Situación</string>
     <string name="view_events">Eventos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

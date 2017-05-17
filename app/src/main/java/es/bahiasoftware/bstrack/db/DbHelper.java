@@ -1,12 +1,20 @@
 package es.bahiasoftware.bstrack.db;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-/**
- * Created by dotebar on 16/05/2017.
- */
+import com.neura.standalonesdk.events.NeuraEvent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import es.bahiasoftware.bstrack.iot.IoTEvent;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -14,30 +22,83 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "bstrack.db";
 
-    private static final String TEXT_TYPE = " TEXT";
-    private static final String COMMA_SEP = ",";
-    private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + DbContract.FeedEntry.TABLE_NAME + " (" +
-                    DbContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
-                    DbContract.FeedEntry.COLUMN_NAME_TYPE + TEXT_TYPE + COMMA_SEP +
-                    DbContract.FeedEntry.COLUMN_NAME_TIME + TEXT_TYPE + COMMA_SEP + DbContract.FeedEntry.COLUMN_NAME_DATA + " )";
-
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + DbContract.FeedEntry.TABLE_NAME;
-
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(DbContract.createEventTable());
     }
+
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
-        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(DbContract.dropEventTable());
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
+    }
+
+    public void save(IoTEvent event){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DbContract.EventTable.COLUMN_NAME_TYPE, event.getType().getName());
+        values.put(DbContract.EventTable.COLUMN_NAME_CLASS, event.getClass().getSimpleName());
+        values.put(DbContract.EventTable.COLUMN_NAME_TIME, event.getTime().toString());
+        values.put(DbContract.EventTable.COLUMN_NAME_DATA, event.getData() != null ? event.getData().toString() : null);
+
+        long newRowId = db.insert(DbContract.EventTable.TABLE_NAME, null, values);
+    }
+
+    public void save(NeuraEvent event){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DbContract.EventTable.COLUMN_NAME_TYPE, event.getEventName());
+        values.put(DbContract.EventTable.COLUMN_NAME_CLASS, event.getClass().getSimpleName());
+        values.put(DbContract.EventTable.COLUMN_NAME_TIME, event.getEventTimestamp());
+        values.put(DbContract.EventTable.COLUMN_NAME_DATA, event.getMetadata().toString());
+
+        long newRowId = db.insert(DbContract.EventTable.TABLE_NAME, null, values);
+    }
+
+    public List<Map> findAll(){
+
+        List<Map> result = new ArrayList<>();
+
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cr = db.rawQuery("SELECT * FROM " + DbContract.EventTable.TABLE_NAME,null);
+
+            if(cr != null){
+                if(cr.moveToFirst()){
+                    do{
+
+                        String id = cr.getString(cr.getColumnIndex(DbContract.EventTable._ID));
+                        String type = cr.getString(cr.getColumnIndex(DbContract.EventTable.COLUMN_NAME_TYPE));
+                        String clazz = cr.getString(cr.getColumnIndex(DbContract.EventTable.COLUMN_NAME_CLASS));
+                        String time = cr.getString(cr.getColumnIndex(DbContract.EventTable.COLUMN_NAME_TIME));
+                        String data = cr.getString(cr.getColumnIndex(DbContract.EventTable.COLUMN_NAME_DATA));
+
+                        Map e = new HashMap();
+                        e.put("id", id);
+                        e.put("time", time);
+                        e.put("class", clazz);
+                        e.put("type", type);
+                        e.put("data", data);
+                        result.add(e);
+                    }while (cr.moveToNext());
+
+                }
+            }
+            cr.close();
+            db.close();
+        }catch (Exception e){
+            Log.e(getClass().getSimpleName(), e.toString());
+        }finally {
+            return result;
+        }
     }
 }

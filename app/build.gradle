@@ -24,8 +24,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.theneura:android-sdk:+"
-    compile "com.google.firebase:firebase-messaging:10.2.0"
+    compile 'com.theneura:android-sdk:+'
+    compile 'com.google.firebase:firebase-messaging:10.2.0'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
 }
 
 //required when using firebase + define classpath 'com.google.gms:google-services:3.0.0' in the main gradle file.

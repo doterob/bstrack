@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fadeScrollbars="false"
+    android:fillViewport="true"
+    android:layout_marginTop="80dp">
+
+    <RelativeLayout
+        style="@style/neura_sdk_auth_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usuario"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/fragment_user_info_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo_image"
+            android:layout_marginTop="15dp"
+            android:text="username" />
+
+        <TextView
+            android:id="@+id/fragment_user_info_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="phone" />
+
+        <TextView
+            android:id="@+id/fragment_user_info_sleep_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sleep" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Situación"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:id="@+id/fragment_user_info_situation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="situation"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Resumen"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:id="@+id/fragment_user_info_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="summary" />
+
+
+    </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>

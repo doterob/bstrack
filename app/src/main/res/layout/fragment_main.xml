@@ -7,15 +7,7 @@
         android:id="@+id/logo_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/neura_sdk_demo_logo" />
-
-    <com.neura.dashboard.view.widget.RobotoMediumTextView
-        android:id="@+id/version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/logo_image"
-        android:layout_marginTop="5dp"
-        android:textSize="13sp" />
+        android:src="@mipmap/bahia_logo" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -85,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/request_permissions_btn"
         android:layout_below="@+id/authentication_title"
-        android:hint="Optional : authenticate with a phone + country code">
+        android:hint="Opcional : teléfono con prefijo">
 
         <com.neura.dashboard.view.widget.RobotoRegularBaseEditText
             android:id="@+id/phone_number"
